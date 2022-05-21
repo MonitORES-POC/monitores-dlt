@@ -10,10 +10,12 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    sudo curl -Lf https://github.com/hyperledger-labs/fablo/releases/download/1.0.2/fablo.sh -o /usr/local/bin/fablo && sudo chmod +x /usr/local/bin/fablo
-    fablo up fablo-config.json
-  displayName: 'Run a multi-line script'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure for Students(1)(64ebc4d0-e46a-4764-9a57-793b904a1865)'
+    appType: 'webAppLinux'
+    WebAppName: 'monitores'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    RuntimeStack: 'NODE|16-lts'
+    StartupCommand: 'sudo curl -Lf https://github.com/hyperledger-labs/fablo/releases/download/1.0.2/fablo.sh -o /usr/local/bin/fablo && sudo chmod +x /usr/local/bin/fablo   &&  fablo up fablo-config.json'
