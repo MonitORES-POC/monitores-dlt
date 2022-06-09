@@ -3,7 +3,8 @@
   "global": {
     "fabricVersion": "2.4.0",
     "tls": false,
-    "monitoring": {"loglevel": "debug"}
+    "monitoring": {"loglevel": "debug"},
+    "tools": {"explorer": true}
   },
   "orgs": [
     {
@@ -30,7 +31,7 @@
       "peer": {
         "instances": 1,
         "anchorPeerInstances": 1,
-        "db": "LevelDb"
+        "db": "CouchDb"
       },
       "tools": {
         "fabloRest": true

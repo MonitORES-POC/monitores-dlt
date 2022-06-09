@@ -1,24 +1,27 @@
 import {Object, Property} from 'fabric-contract-api';
+import { Constraint } from './constraint';
+import { Infractions } from './infractions';
+import { Measure } from './measure';
 
 @Object()
 export class PGU {
     @Property()
-    public ID: string;
+    public id: string;
 
     @Property()
-    public StatusId: number;
-
-    //@Property()
-    //public Production?: number;
+    public statusId: number;
 
     @Property()
-    public Owner: string;
-
-    //@Property()
-    //public Constraint: number;
+    public measure?: Measure;
 
     @Property()
-    public SourceTypeId: number;
+    public owner: string;
+
+    @Property()
+    public constraint: Constraint;
+
+    @Property()
+    public sourceTypeId: number;
 
     @Property()
     public installedPower: number;
@@ -26,8 +29,11 @@ export class PGU {
     @Property()
     public contractPower: number;
 
-    //@Property()
-    //public Infractions?: number;
+    @Property()
+    public infractions?: Infractions;
+
+    @Property()
+    public nbOnboardingMeasures?: number;
 
     //@Property()
     //public EnergyBalance?: number;
