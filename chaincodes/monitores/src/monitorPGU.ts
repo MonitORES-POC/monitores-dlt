@@ -31,7 +31,8 @@ export class MonitorPGUContract extends Contract {
     sourceTypeId: number,
     installedPower: number,
     contractPower: number,
-    creationTime: string
+    creationTime: string,
+    amplificationFactor:number
   ): Promise<void> {
     const exists = await this.PGUExists(ctx, id);
     if (exists) {
@@ -62,6 +63,7 @@ export class MonitorPGUContract extends Contract {
       infractions: initialInfractionList,
       measure: initialMeasure,
       nbOnboardingMeasures: 0,
+      amplificationFactor: amplificationFactor,
     } as PGU;
     await ctx.stub.putState(id, Buffer.from(stringify(pgu)));
   }
@@ -159,7 +161,6 @@ export class MonitorPGUContract extends Contract {
     const pgu: PGU = JSON.parse(pguString);
 
     switch (pgu.statusId) {
-      case 3:
       case 4: {
         throw new Error(`PGU ${id} not autorised to produce`);
         break;
@@ -184,6 +185,14 @@ export class MonitorPGUContract extends Contract {
       }
       case 2: {
         if (power >= pgu.contractPower) {
+          await this.updateInfractions(pgu, "critical", time);
+        }
+        pgu.measure = { timeStamp: time, measuredPower: power } as Measure;
+        await ctx.stub.putState(id, Buffer.from(stringify(pgu)));
+        break;
+      }
+      case 3: {
+        if (power >= 0) {
           await this.updateInfractions(pgu, "critical", time);
         }
         pgu.measure = { timeStamp: time, measuredPower: power } as Measure;

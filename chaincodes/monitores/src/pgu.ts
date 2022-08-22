@@ -35,6 +35,9 @@ export class PGU {
     @Property()
     public nbOnboardingMeasures?: number;
 
+    @Property()
+    public amplificationFactor?: number;
+
     //@Property()
     //public EnergyBalance?: number;
 }
