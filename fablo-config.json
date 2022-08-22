@@ -9,24 +9,29 @@
   "orgs": [
     {
       "organization": {
-        "name": "Orderer",
-        "domain": "orderer.example.com"
+        "name": "ores",
+        "domain": "admin.ores"
       },
       "orderers": [
         {
-          "groupName": "group1",
+          "groupName": "ores1",
           "type": "solo",
           "instances": 1
         }
       ],
+      "peer": {
+        "instances": 1,
+        "anchorPeerInstances": 1,
+        "db": "CouchDb"
+      },
       "tools": {
         "fabloRest": true
       }
     },
     {
       "organization": {
-        "name": "Org1",
-        "domain": "org1.example.com"
+        "name": "prod1",
+        "domain": "prod1.ores"
       },
       "peer": {
         "instances": 1,
@@ -40,13 +45,18 @@
   ],
   "channels": [
     {
-      "name": "my-channel1",
+      "name": "producer-1",
       "orgs": [
         {
-          "name": "Org1",
+          "name": "prod1",
           "peers": [
-            "peer0",
-            "peer1"
+            "peer0"
+          ]
+        },
+        {
+          "name": "ores",
+          "peers": [
+            "peer0"
           ]
         }
       ]
@@ -54,10 +64,10 @@
   ],
   "chaincodes": [
     {
-      "name": "chaincode1",
+      "name": "monitorPGUchaincode",
       "version": "0.0.1",
       "lang": "node",
-      "channel": "my-channel1",
+      "channel": "producer-1",
       "directory": "chaincodes/monitores"
     }
   ]
